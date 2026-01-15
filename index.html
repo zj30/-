@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘算命馆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '微软雅黑', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0015 0%, #1a0033 50%, #0a0015 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 星空背景效果 */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .star:nth-child(1) { width: 1px; height: 1px; animation-delay: 0s; }
+        .star:nth-child(2) { width: 1.5px; height: 1.5px; animation-delay: 0.5s; }
+        .star:nth-child(3) { width: 1px; height: 1px; animation-delay: 1s; }
+        .star:nth-child(4) { width: 2px; height: 2px; animation-delay: 1.5s; }
+        .star:nth-child(5) { width: 1px; height: 1px; animation-delay: 2s; }
+        .star:nth-child(6) { width: 1.5px; height: 1.5px; animation-delay: 2.5s; }
+        .star:nth-child(7) { width: 1px; height: 1px; animation-delay: 3s; }
+        .star:nth-child(8) { width: 1.5px; height: 1.5px; animation-delay: 3.5s; }
+        .star:nth-child(9) { width: 1px; height: 1px; animation-delay: 4s; }
+        .star:nth-child(10) { width: 2px; height: 2px; animation-delay: 4.5s; }
+        .star:nth-child(11) { width: 1px; height: 1px; animation-delay: 5s; }
+        .star:nth-child(12) { width: 1.5px; height: 1.5px; animation-delay: 5.5s; }
+        .star:nth-child(13) { width: 1px; height: 1px; animation-delay: 6s; }
+        .star:nth-child(14) { width: 1px; height: 1px; animation-delay: 6.5s; }
+        .star:nth-child(15) { width: 1.5px; height: 1.5px; animation-delay: 7s; }
+        .star:nth-child(16) { width: 1px; height: 1px; animation-delay: 7.5s; }
+        .star:nth-child(17) { width: 1px; height: 1px; animation-delay: 8s; }
+        .star:nth-child(18) { width: 2px; height: 2px; animation-delay: 8.5s; }
+        .star:nth-child(19) { width: 1px; height: 1px; animation-delay: 9s; }
+        .star:nth-child(20) { width: 1.5px; height: 1.5px; animation-delay: 9.5s; }
+
+        /* 内容容器 */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(20, 5, 50, 0.7);
+            padding: 60px 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.3),
+                        inset 0 0 40px rgba(138, 43, 226, 0.1);
+            max-width: 500px;
+            width: 90%;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 40px rgba(138, 43, 226, 0.3),
+                            inset 0 0 40px rgba(138, 43, 226, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(138, 43, 226, 0.5),
+                            inset 0 0 60px rgba(138, 43, 226, 0.2);
+            }
+        }
+
+        h1 {
+            color: #d946ef;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(217, 70, 239, 0.8),
+                         0 0 40px rgba(138, 43, 226, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: #b19cd9;
+            font-size: 0.95em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-label {
+            display: block;
+            color: #c084fc;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 8px;
+            background: rgba(50, 20, 80, 0.8);
+            color: #e0b0ff;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d946ef;
+            background: rgba(70, 30, 100, 0.9);
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.5),
+                        inset 0 0 10px rgba(217, 70, 239, 0.2);
+        }
+
+        input::placeholder {
+            color: rgba(224, 176, 255, 0.5);
+        }
+
+        .button-container {
+            margin-top: 40px;
+        }
+
+        button {
+            padding: 15px 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #8a2be2 0%, #d946ef 100%);
+            border: 2px solid #d946ef;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(217, 70, 239, 0.5),
+                        inset 0 0 15px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(217, 70, 239, 0.8),
+                        inset 0 0 20px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result-container {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(50, 20, 80, 0.5);
+            border: 2px solid rgba(217, 70, 239, 0.6);
+            border-radius: 12px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-container.show {
+            display: block;
+        }
+
+        .result-text {
+            color: #fbbf24;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        .error {
+            color: #f87171;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars-container" id="starsContainer"></div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <h1>✨ 神秘算命馆 ✨</h1>
+        <p class="subtitle">让星辰为您指引人生之路</p>
+
+        <div class="input-group">
+            <label class="input-label">请输入您的姓名</label>
+            <input type="text" id="nameInput" placeholder="例如：李明" maxlength="20">
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">请输入您的生日</label>
+            <input type="date" id="birthdayInput">
+        </div>
+
+        <div class="button-container">
+            <button id="divineBtn">开始占卜</button>
+        </div>
+
+        <div class="result-container" id="resultContainer">
+            <div class="result-text" id="resultText"></div>
+        </div>
+    </div>
+
+    <script>
+        // 生成星星
+        function generateStars() {
+            const starsContainer = document.getElementById('starsContainer');
+            const starCount = 100;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = (Math.random() * 2 + 0.5) + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 占卜逻辑
+        function divine() {
+            const nameInput = document.getElementById('nameInput');
+            const birthdayInput = document.getElementById('birthdayInput');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultText = document.getElementById('resultText');
+
+            const name = nameInput.value.trim();
+            const birthday = birthdayInput.value;
+
+            if (!name || !birthday) {
+                resultText.innerHTML = '<span class="error">⚠️ 请输入完整的姓名和生日</span>';
+                resultContainer.classList.add('show');
+                return;
+            }
+
+            const predictions = [
+                '🌙 今年将是您充满转变的一年，星辰预示着新的机遇正在靠近。坚持您的梦想，命运之轮将为您转动。',
+                '⭐ 您的生命之光闪耀非常，周围的人都能感受到您的温暖。继续保持这份热情，成功将不远。',
+                '✨ 近期将有一个重要的决定需要做出，相信您的直觉，它会指引您找到正确的答案。',
+                '🔮 爱情的花朵即将在您的生命中绽放，保持开放的心态，美好的缘分正在靠近。',
+                '💫 工作或学业上将迎来新的挑战，这是证明自己能力的好机会，不要退缩。',
+                '🌟 您的耐心将得到回报，所有的努力都在朝着梦想靠近，再坚持一段时间。',
+                '🎆 这一年的您将发现内心深处的力量，它将帮助您克服所有的困难和挑战。',
+                '🌠 注意身边的细节，有一个信号正在暗示您改变方向，这可能是幸运的开始。',
+                '✨ 与家人和朋友的关系将变得更加紧密，珍惜这份羁绊，它是您力量的源泉。',
+                '🔆 天空中的星辰为您指路，您注定要闪闪发光，相信这个预言。'
+            ];
+
+            // 根据名字和生日生成伪随机数
+            const seed = name.length + new Date(birthday).getTime();
+            const index = Math.abs(seed) % predictions.length;
+            const prediction = predictions[index];
+
+            resultText.innerHTML = `<strong>${name}</strong>，根据星辰的低语：<br><br>${prediction}`;
+            resultContainer.classList.add('show');
+        }
+
+        // 事件监听
+        document.getElementById('divineBtn').addEventListener('click', divine);
+        document.getElementById('nameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') divine();
+        });
+        document.getElementById('birthdayInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') divine();
+        });
+
+        // 初始化
+        generateStars();
+    </script>
+</body>
+</html>
