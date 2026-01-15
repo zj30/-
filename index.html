@@ -87,37 +87,381 @@
             filter: blur(1px);
         }
 
-        /* 内容容器 */
+        /* 八卦盘交互 */
+        .bagua-interactive {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 40px;
+            position: relative;
+            cursor: pointer;
+            filter: drop-shadow(0 0 30px rgba(212, 165, 116, 0.3));
+            animation: baguaPulse 3s ease-in-out infinite;
+            background: rgba(20, 18, 15, 0.2);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 165, 116, 0.2);
+        }
+
+        @keyframes baguaPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .bagua-interactive:hover {
+            animation: baguaGlow 0.6s ease-in-out;
+        }
+
+        @keyframes baguaGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(212, 165, 116, 0.2)); }
+            50% { filter: drop-shadow(0 0 40px rgba(212, 165, 116, 0.6)); }
+        }
+
+        /* 干支轮盘 */
+        .stem-branch-wheel {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            width: 500px;
+            height: 500px;
+            pointer-events: none;
+        }
+
+        .stem-branch-wheel.show {
+            display: block;
+        }
+
+        .wheel-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(212, 165, 116, 0.4);
+            border-radius: 50%;
+            animation: wheelSpin 8s linear infinite;
+        }
+
+        .wheel-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-direction: reverse;
+            border-color: rgba(212, 165, 116, 0.3);
+        }
+
+        .wheel-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation-duration: 16s;
+        }
+
+        @keyframes wheelSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .stem-item, .branch-item {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4a574;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            pointer-events: auto;
+        }
+
+        /* 五行元素特效 */
+        .wuxing-display {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .wuxing-display.show {
+            display: block;
+        }
+
+        .wuxing-particle {
+            position: absolute;
+            opacity: 0;
+            animation: wuxingFloat 3s ease-out forwards;
+        }
+
+        @keyframes wuxingFloat {
+            0% {
+                opacity: 0.8;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(0);
+            }
+        }
+
+        /* 加载动画 */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 25;
+            width: 120px;
+            height: 120px;
+            pointer-events: none;
+            background: rgba(20, 18, 15, 0.5);
+            border-radius: 50%;
+            backdrop-filter: blur(20px);
+            padding: 10px;
+        }
+
+        .loading-spinner.show {
+            display: block;
+        }
+
+        .spinner-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-top: 4px solid #d4a574;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        .spinner-ring:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-top-color: #c89860;
+            animation-duration: 1.5s;
+            animation-direction: reverse;
+        }
+
+        .spinner-ring:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-top-color: #a89050;
+            animation-duration: 1s;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #d4a574;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* 预测卡片增强 */
+        .prediction-card {
+            background: rgba(30, 25, 20, 0.4);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            animation: cardSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px) rotateY(45deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0);
+            }
+        }
+
+        .prediction-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 165, 116, 0.3), transparent);
+            animation: cardShine 2s infinite;
+        }
+
+        @keyframes cardShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .prediction-card:nth-child(1) { animation-delay: 0.2s; }
+        .prediction-card:nth-child(2) { animation-delay: 0.4s; }
+        .prediction-card:nth-child(3) { animation-delay: 0.6s; }
+        .prediction-card:nth-child(4) { animation-delay: 0.8s; }
+        .prediction-card:nth-child(5) { animation-delay: 1s; }
+
+        .prediction-card-title {
+            color: #d4a574;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .prediction-card-content {
+            color: #c89860;
+            font-size: 0.95em;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 生肖展示 */
+        .zodiac-circle {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .zodiac-item {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 18, 15, 0.4);
+            border: 1px solid rgba(139, 115, 85, 0.4);
+            color: #d4a574;
+            font-size: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .zodiac-item:hover {
+            background: rgba(30, 25, 20, 0.6);
+            border-color: #d4a574;
+            transform: scale(1.15);
+            box-shadow: 0 0 25px rgba(212, 165, 116, 0.5);
+        }
+
+        .zodiac-item.active {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.9), rgba(200, 152, 96, 0.9));
+            color: #2a2420;
+            border-color: #d4a574;
+            box-shadow: 0 0 30px rgba(212, 165, 116, 0.7);
+            animation: zodiacPulse 0.6s ease-out;
+        }
+
+        @keyframes zodiacPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(212, 165, 116, 0.8);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
+            }
+        }
+
+        /* 毛笔笔画效果 */
+        .brushstroke-line {
+            position: fixed;
+            pointer-events: none;
+            z-index: 8;
+            opacity: 0;
+        }
+
+        @keyframes brushstrokeFade {
+            0% {
+                opacity: 0.6;
+                stroke-dashoffset: 1000;
+            }
+            100% {
+                opacity: 0;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* 鼠标跟随粒子 */
+        .cursor-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 14px;
+            opacity: 0;
+            animation: particleFloat 1s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx, 0), var(--ty, -30px)) scale(0);
+            }
+        }
+
+        /* 内容容器 - 全屏沉浸式 */
         .container {
             position: relative;
             z-index: 10;
             text-align: center;
-            background: linear-gradient(135deg, rgba(50, 40, 30, 0.95) 0%, rgba(30, 25, 20, 0.95) 100%);
-            padding: 50px 50px;
+            background: transparent;
+            padding: 40px 20px;
             border-radius: 0;
-            backdrop-filter: blur(10px);
-            border: 3px solid #8b7355;
-            box-shadow: 
-                0 0 30px rgba(139, 115, 85, 0.4),
-                inset 0 0 30px rgba(218, 165, 105, 0.05),
-                0 20px 60px rgba(0, 0, 0, 0.8);
-            max-width: 520px;
-            width: 90%;
-            animation: shimmerBorder 6s ease-in-out infinite;
-            position: relative;
+            backdrop-filter: none;
+            border: none;
+            box-shadow: none;
+            max-width: 100%;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .container::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(45deg, #d4a574 0%, #8b7355 50%, #d4a574 100%);
-            z-index: -1;
-            opacity: 0;
-            animation: borderGlow 3s ease-in-out infinite;
+            display: none;
         }
 
         @keyframes borderGlow {
@@ -127,49 +471,65 @@
 
         @keyframes shimmerBorder {
             0%, 100% {
-                box-shadow: 
-                    0 0 30px rgba(139, 115, 85, 0.4),
-                    inset 0 0 30px rgba(218, 165, 105, 0.05),
-                    0 20px 60px rgba(0, 0, 0, 0.8);
+                box-shadow: none;
             }
             50% {
-                box-shadow: 
-                    0 0 50px rgba(218, 165, 105, 0.6),
-                    inset 0 0 40px rgba(218, 165, 105, 0.1),
-                    0 20px 60px rgba(0, 0, 0, 0.8);
+                box-shadow: none;
             }
         }
 
         h1 {
             color: #d4a574;
-            font-size: 2.3em;
-            margin-bottom: 5px;
+            font-size: 3em;
+            margin-bottom: 10px;
             text-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(212, 165, 116, 0.3);
-            letter-spacing: 3px;
+                0 2px 8px rgba(0, 0, 0, 0.9),
+                0 0 30px rgba(212, 165, 116, 0.5),
+                0 0 60px rgba(212, 165, 116, 0.3);
+            letter-spacing: 6px;
             font-weight: normal;
             font-style: italic;
+            background: rgba(20, 18, 15, 0.3);
+            padding: 20px 40px;
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
         }
 
         .subtitle {
             color: #a89050;
-            font-size: 0.9em;
-            margin-bottom: 35px;
+            font-size: 1em;
+            margin-bottom: 50px;
             opacity: 0.85;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             font-style: italic;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            background: rgba(20, 18, 15, 0.2);
+            padding: 10px 30px;
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
         }
 
         .input-group {
-            margin-bottom: 22px;
+            margin-bottom: 25px;
             position: relative;
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
+            max-width: 450px;
+            width: 100%;
+            background: rgba(20, 18, 15, 0.4);
+            padding: 20px;
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
         }
 
         .input-group:nth-child(2) { animation-delay: 0.1s; }
         .input-group:nth-child(3) { animation-delay: 0.2s; }
+        .input-group:hover {
+            background: rgba(30, 25, 20, 0.5);
+            border-color: rgba(212, 165, 116, 0.4);
+            box-shadow: 0 8px 32px rgba(212, 165, 116, 0.2);
+        }
 
         @keyframes fadeInUp {
             from {
@@ -186,34 +546,36 @@
             display: block;
             color: #d4a574;
             font-size: 0.95em;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             text-align: left;
             font-weight: bold;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
         }
 
         input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 18px;
             margin-bottom: 0;
-            border: 2px solid #8b7355;
-            border-radius: 0;
-            background: rgba(20, 18, 15, 0.8);
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            border-radius: 8px;
+            background: rgba(10, 8, 5, 0.5);
             color: #d4a574;
             font-size: 1em;
             font-family: inherit;
             transition: all 0.3s ease;
             letter-spacing: 0.5px;
+            backdrop-filter: blur(5px);
         }
 
         input:focus {
             outline: none;
             border-color: #d4a574;
-            background: rgba(30, 25, 20, 0.95);
+            background: rgba(20, 15, 10, 0.7);
             box-shadow: 
-                0 0 15px rgba(212, 165, 116, 0.4),
-                inset 0 0 10px rgba(212, 165, 116, 0.1);
+                0 0 20px rgba(212, 165, 116, 0.4),
+                inset 0 2px 8px rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
         }
 
         input::placeholder {
@@ -221,30 +583,31 @@
         }
 
         .button-container {
-            margin-top: 35px;
+            margin-top: 40px;
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         button {
-            padding: 13px 35px;
-            font-size: 1em;
+            padding: 16px 45px;
+            font-size: 1.1em;
             font-weight: bold;
             color: #2a2420;
-            background: linear-gradient(135deg, #d4a574 0%, #c89860 100%);
-            border: 2px solid #8b7355;
-            border-radius: 0;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.9) 0%, rgba(200, 152, 96, 0.9) 100%);
+            border: 2px solid rgba(139, 115, 85, 0.6);
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-family: inherit;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             box-shadow: 
-                0 5px 15px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                0 8px 32px rgba(212, 165, 116, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         button::before {
@@ -262,11 +625,11 @@
         }
 
         button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
             box-shadow: 
-                0 8px 25px rgba(212, 165, 116, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            background: linear-gradient(135deg, #deb587 0%, #d4a574 100%);
+                0 12px 40px rgba(212, 165, 116, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, rgba(222, 181, 135, 1) 0%, rgba(212, 165, 116, 1) 100%);
         }
 
         button:hover::before {
@@ -275,35 +638,39 @@
         }
 
         button:active {
-            transform: translateY(-1px);
+            transform: translateY(-1px) scale(1.02);
             box-shadow: 
-                0 3px 10px rgba(212, 165, 116, 0.3),
+                0 5px 20px rgba(212, 165, 116, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         button.secondary {
-            background: linear-gradient(135deg, #6b5d4f 0%, #5a4e45 100%);
+            background: linear-gradient(135deg, rgba(107, 93, 79, 0.7) 0%, rgba(90, 78, 69, 0.7) 100%);
             color: #d4a574;
-            border-color: #8b7355;
+            border-color: rgba(139, 115, 85, 0.5);
         }
 
         button.secondary:hover {
-            background: linear-gradient(135deg, #7a6b5f 0%, #6a5e55 100%);
+            background: linear-gradient(135deg, rgba(122, 107, 95, 0.8) 0%, rgba(106, 94, 85, 0.8) 100%);
             box-shadow: 
-                0 8px 25px rgba(107, 93, 79, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 12px 40px rgba(107, 93, 79, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .result-container {
             display: none;
-            margin-top: 35px;
-            padding: 30px;
-            background: rgba(20, 18, 15, 0.6);
-            border: 2px solid #8b7355;
-            border-radius: 0;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(20, 18, 15, 0.3);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            border-radius: 20px;
             animation: flipCard 0.6s ease;
             position: relative;
             transform-style: preserve-3d;
+            backdrop-filter: blur(20px);
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes flipCard {
@@ -337,10 +704,11 @@
 
         .result-title {
             color: #d4a574;
-            font-size: 1.2em;
-            margin-bottom: 15px;
+            font-size: 1.5em;
+            margin-bottom: 25px;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
         .result-text {
@@ -404,6 +772,30 @@
         <h1>🐉 道缘占卜馆 🐉</h1>
         <p class="subtitle">天机秘册 · 古今相聚</p>
 
+        <!-- 八卦盘交互 -->
+        <div class="bagua-interactive" id="baguaInteractive">
+            <svg viewBox="0 0 300 300" style="width: 100%; height: 100%;">
+                <!-- 外圆 -->
+                <circle cx="150" cy="150" r="140" fill="none" stroke="#8b7355" stroke-width="2" opacity="0.5"/>
+                <!-- 内圆 -->
+                <circle cx="150" cy="150" r="100" fill="none" stroke="#8b7355" stroke-width="1.5" opacity="0.3"/>
+                <!-- 中心 -->
+                <circle cx="150" cy="150" r="8" fill="#d4a574" opacity="0.6"/>
+                
+                <!-- 八卦图 (yin-yang style) -->
+                <circle cx="150" cy="120" r="25" fill="none" stroke="#d4a574" stroke-width="2" opacity="0.4"/>
+                <circle cx="150" cy="180" r="25" fill="none" stroke="#d4a574" stroke-width="2" opacity="0.4"/>
+                <circle cx="120" cy="150" r="25" fill="none" stroke="#d4a574" stroke-width="2" opacity="0.4"/>
+                <circle cx="180" cy="150" r="25" fill="none" stroke="#d4a574" stroke-width="2" opacity="0.4"/>
+                
+                <!-- 干支标记 -->
+                <text x="150" y="40" text-anchor="middle" font-size="12" fill="#d4a574" opacity="0.6">子</text>
+                <text x="235" y="160" text-anchor="middle" font-size="12" fill="#d4a574" opacity="0.6">午</text>
+                <text x="65" y="160" text-anchor="middle" font-size="12" fill="#d4a574" opacity="0.6">卯</text>
+                <text x="150" y="275" text-anchor="middle" font-size="12" fill="#d4a574" opacity="0.6">午</text>
+            </svg>
+        </div>
+
         <div class="input-group">
             <label class="input-label">姓名</label>
             <input type="text" id="nameInput" placeholder="请输入您的名字" maxlength="20">
@@ -416,7 +808,7 @@
 
         <div class="input-group">
             <label class="input-label">性别</label>
-            <select id="genderInput" style="width: 100%; padding: 12px 15px; border: 2px solid #8b7355; background: rgba(20, 18, 15, 0.8); color: #d4a574; font-family: inherit; border-radius: 0; cursor: pointer;">
+            <select id="genderInput" style="width: 100%; padding: 14px 18px; border: 1px solid rgba(139, 115, 85, 0.3); border-radius: 8px; background: rgba(10, 8, 5, 0.5); color: #d4a574; font-family: inherit; cursor: pointer; backdrop-filter: blur(5px); font-size: 1em; transition: all 0.3s ease;">
                 <option value="">请选择</option>
                 <option value="male">男</option>
                 <option value="female">女</option>
@@ -430,10 +822,53 @@
 
         <div class="result-container" id="resultContainer">
             <div class="result-title" id="resultTitle"></div>
+            
+            <!-- 八卦卡片 -->
+            <div class="prediction-card" id="baguaCard" style="display: none;">
+                <div class="prediction-card-title">八 卦 象 征</div>
+                <div class="prediction-card-content" id="baguaContent"></div>
+            </div>
+
+            <!-- 干支卡片 -->
+            <div class="prediction-card" id="stemBranchCard" style="display: none;">
+                <div class="prediction-card-title">四 柱 干 支</div>
+                <div class="prediction-card-content" id="stemBranchContent"></div>
+            </div>
+
+            <!-- 五行卡片 -->
+            <div class="prediction-card" id="wuxingCard" style="display: none;">
+                <div class="prediction-card-title">五 行 属 性</div>
+                <div class="prediction-card-content" id="wuxingContent"></div>
+            </div>
+
+            <!-- 生肖卡片 -->
+            <div class="prediction-card" id="zodiacCard" style="display: none;">
+                <div class="prediction-card-title">生 肖 运 势</div>
+                <div class="prediction-card-content" id="zodiacContent"></div>
+                <div class="zodiac-circle" id="zodiacCircle"></div>
+            </div>
+
+            <!-- 预测卡片 -->
+            <div class="prediction-card" id="predictionCard" style="display: none;">
+                <div class="prediction-card-title" id="predictionTitle"></div>
+                <div class="prediction-card-content" id="predictionText"></div>
+            </div>
+
             <div class="result-text" id="resultText"></div>
             <div class="result-detail" id="resultDetail"></div>
         </div>
     </div>
+
+    <!-- 加载动画 -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-text">占 卜 中</div>
+    </div>
+
+    <!-- 五行粒子效果 -->
+    <div class="wuxing-display" id="wuxingDisplay"></div>
 
     <script>
         // 生成水墨粒子
@@ -455,6 +890,26 @@
                 container.appendChild(particle);
             }
         }
+
+        // 鼠标跟随粒子效果
+        function createCursorParticle(x, y, symbol = '✦') {
+            const particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            particle.textContent = symbol;
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.color = '#d4a574';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 100 + 'px');
+            particle.style.setProperty('--ty', (Math.random() - 0.5) * 100 - 30 + 'px');
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 1000);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.05) {
+                createCursorParticle(e.clientX, e.clientY);
+            }
+        });
 
         // 创建CSS动画
         const style = document.createElement('style');
@@ -523,12 +978,50 @@
             }
         ];
 
+        // 八卦映射
+        const guaMap = {
+            0: { name: '乾', desc: '天地之气，刚强坚毅。您的命格蕴含着天道的刚直，做事果敢有力。' },
+            1: { name: '坤', desc: '大地之力，柔顺包容。您的命格承载着大地的温厚，包容万物。' },
+            2: { name: '震', desc: '雷霆之势，震撼人心。您的命格中闪烁着雷的能量，易有突变。' },
+            3: { name: '艮', desc: '高山之壮，坚实不移。您的命格如山般稳重，志向坚定。' },
+            4: { name: '坎', desc: '流水之润，循环往复。您的命格如水般灵活，善于适应。' },
+            5: { name: '离', desc: '烈火之明，光彩照人。您的命格闪耀如火，才华出众。' },
+            6: { name: '兑', desc: '清水之喜，悦人心扉。您的命格清净如水，善于交际。' },
+            7: { name: '风', desc: '风行之力，无处不至。您的命格如风一样流动，机遇众多。' }
+        };
+
+        // 五行详细描述
+        const wuxingDesc = {
+            '金': '刚强内敛，处事有度。金属性人士果决坚毅，容易成就大事。',
+            '木': '欣欣向荣，生机勃勃。木属性人士充满希望，事业前景光明。',
+            '水': '聪慧灵动，知变适变。水属性人士聪慧灵活，善于分析问题。',
+            '火': '热情似火，才华横溢。火属性人士热情洋溢，容易获得他人欣赏。',
+            '土': '厚重稳实，诚实守信。土属性人士稳重踏实，是可信赖之人。'
+        };
+
+        // 生肖运势
+        const zodiacFortune = {
+            '鼠': '聪慧伶俐，贵人相助。今年运势上升，事业有机遇。',
+            '牛': '稳健踏实，厚积薄发。坚持努力，收获在即。',
+            '虎': '虎虎生风，前程似锦。把握机遇，成功有期。',
+            '兔': '温顺和谐，人脉广阔。贵人扶持，前路光明。',
+            '龙': '龙凤呈祥，运势昌隆。天赋异禀，光彩夺目。',
+            '蛇': '神秘智慧，深谋远虑。洞察先机，成竹在胸。',
+            '马': '骏马奔腾，志在千里。冲劲十足，前景广阔。',
+            '羊': '温和善良，福运绵长。秉性纯良，自有福气。',
+            '猴': '聪慧多才，灵动万千。才思敏捷，成就不凡。',
+            '鸡': '勤勉聪慧，守规律己。谨言慎行，稳中有进。',
+            '狗': '忠诚可靠，品德高尚。信义为先，福禄自来。',
+            '猪': '憨厚纯真，福分深厚。宽容待人，福报不断。'
+        };
+
         // 计算干支和五行
         function calculateBaZi(birthdayStr, name, gender) {
             const date = new Date(birthdayStr);
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
             const day = date.getDate();
+            const hour = date.getHours();
 
             // 简化计算：按公历推算
             const yearStem = (year - 4) % 10;
@@ -537,13 +1030,23 @@
             const monthBranch = month % 12;
             const dayStem = ((date.getTime() / (24 * 60 * 60 * 1000) + 10) % 10) | 0;
             const dayBranch = ((date.getTime() / (24 * 60 * 60 * 1000) + 4) % 12) | 0;
+            const hourStem = ((dayStem * 2 + (hour / 2) | 0) % 10);
+            const hourBranch = ((hour + 1) / 2 | 0) % 12;
+
+            const guaIndex = (yearStem + monthStem + dayStem) % 8;
+            const gua = guaMap[guaIndex];
 
             return {
                 year: heavenlyStemsMap[yearStem] + earthlyBranchesMap[yearBranch],
                 month: heavenlyStemsMap[monthStem] + earthlyBranchesMap[monthBranch],
                 day: heavenlyStemsMap[dayStem] + earthlyBranchesMap[dayBranch],
+                hour: heavenlyStemsMap[hourStem] + earthlyBranchesMap[hourBranch],
                 zodiac: zodiacMap[yearBranch],
                 wuxing: wuxingMap[yearStem],
+                wuxingDesc: wuxingDesc[wuxingMap[yearStem]],
+                zodiacDesc: zodiacFortune[zodiacMap[yearBranch]],
+                guaImage: gua.name,
+                guaDesc: gua.desc,
                 nameCount: name.length
             };
         }
@@ -561,57 +1064,243 @@
             };
         }
 
-        // 占卜功能
+        // 显示加载动画
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.remove('show');
+        }
+
+        // 创建五行粒子效果
+        function createWuxingParticles(wuxing) {
+            const colors = {
+                '金': '#ffd700',
+                '木': '#00d084',
+                '水': '#00bfff',
+                '火': '#ff4500',
+                '土': '#d2691e'
+            };
+
+            const color = colors[wuxing] || '#d4a574';
+            const display = document.getElementById('wuxingDisplay');
+            display.classList.add('show');
+
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'wuxing-particle';
+                    const x = Math.random() * window.innerWidth;
+                    const y = window.innerHeight / 2;
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.fontSize = Math.random() * 20 + 10 + 'px';
+                    particle.style.color = color;
+                    particle.textContent = wuxing;
+                    particle.style.opacity = '0.8';
+                    display.appendChild(particle);
+                    setTimeout(() => particle.remove(), 3000);
+                }, i * 100);
+            }
+
+            setTimeout(() => {
+                display.classList.remove('show');
+            }, 3000);
+        }
+
+        // 生肖圆形展示
+        function displayZodiacCircle(currentZodiac) {
+            const zodiacList = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+            const circle = document.getElementById('zodiacCircle');
+            circle.innerHTML = '';
+
+            zodiacList.forEach((zodiac, index) => {
+                const item = document.createElement('div');
+                item.className = 'zodiac-item';
+                if (zodiac === currentZodiac) item.classList.add('active');
+                item.textContent = zodiac;
+                item.style.animationDelay = (index * 0.05) + 's';
+                item.style.animation = 'zodiacSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+                item.style.opacity = '0';
+                circle.appendChild(item);
+
+                // 创建额外的样式
+                if (zodiac === currentZodiac) {
+                    setTimeout(() => {
+                        item.style.animation = 'zodiacPulse 0.6s ease-out';
+                    }, index * 50);
+                }
+            });
+        }
+
+        // 添加生肖滑入动画
+        const zodiacSlideInStyle = document.createElement('style');
+        zodiacSlideInStyle.textContent = `
+            @keyframes zodiacSlideIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.3) rotateZ(-180deg);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1) rotateZ(0);
+                }
+            }
+        `;
+        document.head.appendChild(zodiacSlideInStyle);
+
+        // 占卜功能（增强版）
         function divine() {
             const nameInput = document.getElementById('nameInput');
             const birthdayInput = document.getElementById('birthdayInput');
             const genderInput = document.getElementById('genderInput');
             const resultContainer = document.getElementById('resultContainer');
             const resultTitle = document.getElementById('resultTitle');
-            const resultText = document.getElementById('resultText');
-            const resultDetail = document.getElementById('resultDetail');
 
             const name = nameInput.value.trim();
             const birthday = birthdayInput.value;
             const gender = genderInput.value;
 
             if (!name || !birthday || !gender) {
-                resultText.innerHTML = '<span class="error">✦ 请完整填写所有信息</span>';
-                resultTitle.innerHTML = '信息不足';
+                resultTitle.innerHTML = '✦ 请完整填写所有信息';
+                document.getElementById('resultText').innerHTML = '';
+                document.getElementById('resultText').textContent = '姓名、生日和性别缺一不可';
                 resultContainer.classList.add('show');
                 return;
             }
 
-            // 计算八字
-            const baziInfo = calculateBaZi(birthday, name, gender);
-            const prediction = getPrediction(baziInfo, gender);
+            // 输入框震动效果
+            [nameInput, birthdayInput, genderInput].forEach(input => {
+                input.style.animation = 'inputShake 0.3s ease-in-out';
+                setTimeout(() => {
+                    input.style.animation = 'none';
+                }, 300);
+            });
 
-            // 显示结果
-            resultTitle.innerHTML = `『${prediction.title}』的预示`;
-            resultText.innerHTML = prediction.text;
+            // 显示加载动画
+            showLoading();
 
-            // 显示详细信息
-            resultDetail.innerHTML = `
-                <div class="detail-item">
-                    <div class="detail-label">年柱</div>
-                    <div class="detail-value">${baziInfo.year}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">月柱</div>
-                    <div class="detail-value">${baziInfo.month}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">生肖</div>
-                    <div class="detail-value">${baziInfo.zodiac}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">五行属性</div>
-                    <div class="detail-value">${baziInfo.wuxing}</div>
-                </div>
-            `;
+            // 隐藏所有卡片
+            document.getElementById('baguaCard').style.display = 'none';
+            document.getElementById('stemBranchCard').style.display = 'none';
+            document.getElementById('wuxingCard').style.display = 'none';
+            document.getElementById('zodiacCard').style.display = 'none';
+            document.getElementById('predictionCard').style.display = 'none';
 
-            resultContainer.classList.add('show');
+            // 创建占卜能量释放效果
+            releaseEnergyEffect();
+
+            // 延迟显示结果，创建悬念效果
+            setTimeout(() => {
+                hideLoading();
+
+                // 计算八字
+                const baziInfo = calculateBaZi(birthday, name, gender);
+                const prediction = getPrediction(baziInfo, gender);
+
+                resultTitle.innerHTML = `✦ 『${prediction.title}』的预示 ✦`;
+
+                // 显示八卦卡片
+                setTimeout(() => {
+                    document.getElementById('baguaCard').style.display = 'block';
+                    document.getElementById('baguaContent').innerHTML = `您的命格八卦为：<strong>${baziInfo.guaImage}</strong><br><br>${baziInfo.guaDesc}`;
+                }, 200);
+
+                // 显示干支卡片
+                setTimeout(() => {
+                    document.getElementById('stemBranchCard').style.display = 'block';
+                    document.getElementById('stemBranchContent').innerHTML = `
+                        <div>年柱：${baziInfo.year} | 月柱：${baziInfo.month}</div>
+                        <div style="margin-top: 10px;">日柱：${baziInfo.day} | 时柱：${baziInfo.hour}</div>
+                    `;
+                }, 400);
+
+                // 显示五行卡片
+                setTimeout(() => {
+                    document.getElementById('wuxingCard').style.display = 'block';
+                    document.getElementById('wuxingContent').innerHTML = `
+                        <div>主要属性：<strong style="color: #d4a574; font-size: 1.2em;">${baziInfo.wuxing}</strong></div>
+                        <div style="margin-top: 10px;">五行属性：${baziInfo.wuxingDesc}</div>
+                    `;
+                    createWuxingParticles(baziInfo.wuxing);
+                }, 600);
+
+                // 显示生肖卡片
+                setTimeout(() => {
+                    document.getElementById('zodiacCard').style.display = 'block';
+                    document.getElementById('zodiacContent').innerHTML = `
+                        <div>您的生肖：<strong style="font-size: 1.3em; color: #d4a574;">${baziInfo.zodiac}</strong></div>
+                        <div style="margin-top: 10px;">运势分析：${baziInfo.zodiacDesc}</div>
+                    `;
+                    displayZodiacCircle(baziInfo.zodiac);
+                }, 800);
+
+                // 显示最终预测卡片
+                setTimeout(() => {
+                    document.getElementById('predictionCard').style.display = 'block';
+                    document.getElementById('predictionTitle').textContent = `『${prediction.title}』`;
+                    document.getElementById('predictionText').innerHTML = prediction.text;
+                }, 1000);
+
+                resultContainer.classList.add('show');
+            }, 1500);
         }
+
+        // 能量释放效果
+        function releaseEnergyEffect() {
+            const container = document.querySelector('.container');
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const angle = (i / 20) * Math.PI * 2;
+                    const distance = 100;
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    particle.style.width = '10px';
+                    particle.style.height = '10px';
+                    particle.style.background = 'rgba(212, 165, 116, 0.8)';
+                    particle.style.borderRadius = '50%';
+                    particle.style.zIndex = '9';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.boxShadow = '0 0 10px rgba(212, 165, 116, 0.6)';
+                    particle.style.animation = `energyBurst 1.5s ease-out forwards`;
+                    particle.style.setProperty('--angle', angle);
+                    particle.style.setProperty('--distance', distance);
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 1500);
+                }, i * 50);
+            }
+        }
+
+        // 添加能量爆发动画
+        const energyBurstStyle = document.createElement('style');
+        energyBurstStyle.textContent = `
+            @keyframes energyBurst {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(
+                        calc(cos(var(--angle, 0)) * var(--distance, 100px)),
+                        calc(sin(var(--angle, 0)) * var(--distance, 100px))
+                    ) scale(0);
+                    opacity: 0;
+                }
+            }
+            @keyframes inputShake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(energyBurstStyle);
 
         // 重置功能
         function reset() {
@@ -619,7 +1308,92 @@
             document.getElementById('birthdayInput').value = '';
             document.getElementById('genderInput').value = '';
             document.getElementById('resultContainer').classList.remove('show');
+            document.getElementById('baguaCard').style.display = 'none';
+            document.getElementById('stemBranchCard').style.display = 'none';
+            document.getElementById('wuxingCard').style.display = 'none';
+            document.getElementById('zodiacCard').style.display = 'none';
+            document.getElementById('predictionCard').style.display = 'none';
         }
+
+        // 八卦交互
+        document.getElementById('baguaInteractive').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'baguaGlow 0.6s ease-in-out';
+            }, 10);
+            
+            // 创建粒子效果
+            for (let i = 0; i < 8; i++) {
+                createCursorParticle(150, 150, ['卦', '象', '道', '缘', '天', '地', '人', '和'][i]);
+            }
+
+            // 创建笔画效果
+            createBrushstrokeEffect();
+        });
+
+        // 创建笔画特效
+        function createBrushstrokeEffect() {
+            const centerX = document.getElementById('baguaInteractive').offsetLeft + 150;
+            const centerY = document.getElementById('baguaInteractive').offsetTop + 150;
+
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    const angle = (i * 45) * Math.PI / 180;
+                    const length = 200;
+                    const x1 = centerX;
+                    const y1 = centerY;
+                    const x2 = centerX + Math.cos(angle) * length;
+                    const y2 = centerY + Math.sin(angle) * length;
+
+                    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svg.setAttribute('width', '1000');
+                    svg.setAttribute('height', '1000');
+                    svg.style.position = 'fixed';
+                    svg.style.top = '0';
+                    svg.style.left = '0';
+                    svg.style.pointerEvents = 'none';
+                    svg.style.zIndex = '8';
+
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', x1);
+                    line.setAttribute('y1', y1);
+                    line.setAttribute('x2', x2);
+                    line.setAttribute('y2', y2);
+                    line.setAttribute('stroke', '#d4a574');
+                    line.setAttribute('stroke-width', '2');
+                    line.setAttribute('opacity', '0.6');
+                    line.style.animation = 'brushstrokeFade 1s ease-out forwards';
+
+                    svg.appendChild(line);
+                    document.body.appendChild(svg);
+
+                    setTimeout(() => svg.remove(), 1000);
+                }, i * 100);
+            }
+        }
+
+        // 增强的鼠标粒子效果
+        let lastParticleTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastParticleTime > 50) {
+                if (Math.random() < 0.3) {
+                    createCursorParticle(e.clientX, e.clientY);
+                }
+                lastParticleTime = now;
+            }
+        });
+
+        // 点击时创建爆炸效果
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'divineBtn' || e.target.id === 'resetBtn') {
+                for (let i = 0; i < 12; i++) {
+                    setTimeout(() => {
+                        createCursorParticle(e.clientX, e.clientY, '✨');
+                    }, i * 30);
+                }
+            }
+        });
 
         // 事件监听
         document.getElementById('divineBtn').addEventListener('click', divine);
