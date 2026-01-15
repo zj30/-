@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神秘算命馆</title>
+    <title>道缘占卜馆 · 天机秘册</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: '微软雅黑', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #0a0015 0%, #1a0033 50%, #0a0015 100%);
+            font-family: '方正仿宋_GB2312', '仿宋', 'FangSong', '微软雅黑', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #1a1410 0%, #0f0c09 50%, #1a1410 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,8 +22,9 @@
             position: relative;
         }
 
-        /* 星空背景效果 */
-        .stars-container {
+
+        /* 八卦背景动画 */
+        .bagua-background {
             position: fixed;
             top: 0;
             left: 0;
@@ -31,145 +32,217 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
+            opacity: 0.05;
         }
 
-        .star {
+        .bagua-circle {
             position: absolute;
-            background: white;
+            border: 2px solid #8b7355;
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            animation: rotateBagua 20s linear infinite;
         }
 
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.3;
+        .bagua-circle:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 20s;
+        }
+
+        .bagua-circle:nth-child(2) {
+            width: 600px;
+            height: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        @keyframes rotateBagua {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
             }
-            50% {
-                opacity: 1;
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
             }
         }
 
-        .star:nth-child(1) { width: 1px; height: 1px; animation-delay: 0s; }
-        .star:nth-child(2) { width: 1.5px; height: 1.5px; animation-delay: 0.5s; }
-        .star:nth-child(3) { width: 1px; height: 1px; animation-delay: 1s; }
-        .star:nth-child(4) { width: 2px; height: 2px; animation-delay: 1.5s; }
-        .star:nth-child(5) { width: 1px; height: 1px; animation-delay: 2s; }
-        .star:nth-child(6) { width: 1.5px; height: 1.5px; animation-delay: 2.5s; }
-        .star:nth-child(7) { width: 1px; height: 1px; animation-delay: 3s; }
-        .star:nth-child(8) { width: 1.5px; height: 1.5px; animation-delay: 3.5s; }
-        .star:nth-child(9) { width: 1px; height: 1px; animation-delay: 4s; }
-        .star:nth-child(10) { width: 2px; height: 2px; animation-delay: 4.5s; }
-        .star:nth-child(11) { width: 1px; height: 1px; animation-delay: 5s; }
-        .star:nth-child(12) { width: 1.5px; height: 1.5px; animation-delay: 5.5s; }
-        .star:nth-child(13) { width: 1px; height: 1px; animation-delay: 6s; }
-        .star:nth-child(14) { width: 1px; height: 1px; animation-delay: 6.5s; }
-        .star:nth-child(15) { width: 1.5px; height: 1.5px; animation-delay: 7s; }
-        .star:nth-child(16) { width: 1px; height: 1px; animation-delay: 7.5s; }
-        .star:nth-child(17) { width: 1px; height: 1px; animation-delay: 8s; }
-        .star:nth-child(18) { width: 2px; height: 2px; animation-delay: 8.5s; }
-        .star:nth-child(19) { width: 1px; height: 1px; animation-delay: 9s; }
-        .star:nth-child(20) { width: 1.5px; height: 1.5px; animation-delay: 9.5s; }
+        /* 水墨粒子效果 */
+        .ink-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        .particle {
+            position: absolute;
+            opacity: 0.1;
+            filter: blur(1px);
+        }
 
         /* 内容容器 */
         .container {
             position: relative;
             z-index: 10;
             text-align: center;
-            background: rgba(20, 5, 50, 0.7);
-            padding: 60px 40px;
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(50, 40, 30, 0.95) 0%, rgba(30, 25, 20, 0.95) 100%);
+            padding: 50px 50px;
+            border-radius: 0;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(138, 43, 226, 0.4);
-            box-shadow: 0 0 40px rgba(138, 43, 226, 0.3),
-                        inset 0 0 40px rgba(138, 43, 226, 0.1);
-            max-width: 500px;
+            border: 3px solid #8b7355;
+            box-shadow: 
+                0 0 30px rgba(139, 115, 85, 0.4),
+                inset 0 0 30px rgba(218, 165, 105, 0.05),
+                0 20px 60px rgba(0, 0, 0, 0.8);
+            max-width: 520px;
             width: 90%;
-            animation: glow 3s ease-in-out infinite;
+            animation: shimmerBorder 6s ease-in-out infinite;
+            position: relative;
         }
 
-        @keyframes glow {
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #d4a574 0%, #8b7355 50%, #d4a574 100%);
+            z-index: -1;
+            opacity: 0;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes shimmerBorder {
             0%, 100% {
-                box-shadow: 0 0 40px rgba(138, 43, 226, 0.3),
-                            inset 0 0 40px rgba(138, 43, 226, 0.1);
+                box-shadow: 
+                    0 0 30px rgba(139, 115, 85, 0.4),
+                    inset 0 0 30px rgba(218, 165, 105, 0.05),
+                    0 20px 60px rgba(0, 0, 0, 0.8);
             }
             50% {
-                box-shadow: 0 0 60px rgba(138, 43, 226, 0.5),
-                            inset 0 0 60px rgba(138, 43, 226, 0.2);
+                box-shadow: 
+                    0 0 50px rgba(218, 165, 105, 0.6),
+                    inset 0 0 40px rgba(218, 165, 105, 0.1),
+                    0 20px 60px rgba(0, 0, 0, 0.8);
             }
         }
 
         h1 {
-            color: #d946ef;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(217, 70, 239, 0.8),
-                         0 0 40px rgba(138, 43, 226, 0.6);
-            letter-spacing: 2px;
+            color: #d4a574;
+            font-size: 2.3em;
+            margin-bottom: 5px;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(212, 165, 116, 0.3);
+            letter-spacing: 3px;
+            font-weight: normal;
+            font-style: italic;
         }
 
         .subtitle {
-            color: #b19cd9;
-            font-size: 0.95em;
-            margin-bottom: 40px;
-            opacity: 0.9;
+            color: #a89050;
+            font-size: 0.9em;
+            margin-bottom: 35px;
+            opacity: 0.85;
+            letter-spacing: 2px;
+            font-style: italic;
         }
 
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 22px;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .input-group:nth-child(2) { animation-delay: 0.1s; }
+        .input-group:nth-child(3) { animation-delay: 0.2s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .input-label {
             display: block;
-            color: #c084fc;
+            color: #d4a574;
             font-size: 0.95em;
             margin-bottom: 8px;
             text-align: left;
             font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         input {
             width: 100%;
             padding: 12px 15px;
-            margin-bottom: 15px;
-            border: 2px solid rgba(138, 43, 226, 0.3);
-            border-radius: 8px;
-            background: rgba(50, 20, 80, 0.8);
-            color: #e0b0ff;
+            margin-bottom: 0;
+            border: 2px solid #8b7355;
+            border-radius: 0;
+            background: rgba(20, 18, 15, 0.8);
+            color: #d4a574;
             font-size: 1em;
             font-family: inherit;
             transition: all 0.3s ease;
+            letter-spacing: 0.5px;
         }
 
         input:focus {
             outline: none;
-            border-color: #d946ef;
-            background: rgba(70, 30, 100, 0.9);
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.5),
-                        inset 0 0 10px rgba(217, 70, 239, 0.2);
+            border-color: #d4a574;
+            background: rgba(30, 25, 20, 0.95);
+            box-shadow: 
+                0 0 15px rgba(212, 165, 116, 0.4),
+                inset 0 0 10px rgba(212, 165, 116, 0.1);
         }
 
         input::placeholder {
-            color: rgba(224, 176, 255, 0.5);
+            color: rgba(212, 165, 116, 0.4);
         }
 
         .button-container {
-            margin-top: 40px;
+            margin-top: 35px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         button {
-            padding: 15px 50px;
-            font-size: 1.1em;
+            padding: 13px 35px;
+            font-size: 1em;
             font-weight: bold;
-            color: #ffffff;
-            background: linear-gradient(135deg, #8a2be2 0%, #d946ef 100%);
-            border: 2px solid #d946ef;
-            border-radius: 50px;
+            color: #2a2420;
+            background: linear-gradient(135deg, #d4a574 0%, #c89860 100%);
+            border: 2px solid #8b7355;
+            border-radius: 0;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-family: inherit;
             letter-spacing: 1px;
-            box-shadow: 0 0 30px rgba(217, 70, 239, 0.5),
-                        inset 0 0 15px rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
         }
@@ -182,16 +255,18 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
+            z-index: -1;
         }
 
         button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 50px rgba(217, 70, 239, 0.8),
-                        inset 0 0 20px rgba(255, 255, 255, 0.2);
-            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(212, 165, 116, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #deb587 0%, #d4a574 100%);
         }
 
         button:hover::before {
@@ -200,17 +275,49 @@
         }
 
         button:active {
-            transform: scale(0.98);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 3px 10px rgba(212, 165, 116, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #6b5d4f 0%, #5a4e45 100%);
+            color: #d4a574;
+            border-color: #8b7355;
+        }
+
+        button.secondary:hover {
+            background: linear-gradient(135deg, #7a6b5f 0%, #6a5e55 100%);
+            box-shadow: 
+                0 8px 25px rgba(107, 93, 79, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .result-container {
             display: none;
-            margin-top: 40px;
+            margin-top: 35px;
             padding: 30px;
-            background: rgba(50, 20, 80, 0.5);
-            border: 2px solid rgba(217, 70, 239, 0.6);
-            border-radius: 12px;
-            animation: slideIn 0.5s ease;
+            background: rgba(20, 18, 15, 0.6);
+            border: 2px solid #8b7355;
+            border-radius: 0;
+            animation: flipCard 0.6s ease;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes flipCard {
+            0% {
+                opacity: 0;
+                transform: perspective(1000px) rotateY(90deg);
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+                transform: perspective(1000px) rotateY(0deg);
+            }
         }
 
         @keyframes slideIn {
@@ -228,116 +335,306 @@
             display: block;
         }
 
+        .result-title {
+            color: #d4a574;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
         .result-text {
-            color: #fbbf24;
-            font-size: 1.1em;
+            color: #c89860;
+            font-size: 1em;
             line-height: 1.8;
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: left;
+        }
+
+        .result-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #8b7355;
+        }
+
+        .detail-item {
+            background: rgba(30, 25, 20, 0.5);
+            padding: 12px;
+            border-left: 3px solid #d4a574;
+            border-radius: 0;
+        }
+
+        .detail-label {
+            color: #d4a574;
+            font-size: 0.85em;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            color: #a89050;
+            font-size: 0.95em;
+            margin-top: 5px;
         }
 
         .error {
-            color: #f87171;
+            color: #d4a574;
             margin-top: 15px;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            opacity: 0.8;
         }
     </style>
 </head>
+</head>
 <body>
-    <!-- 星空背景 -->
-    <div class="stars-container" id="starsContainer"></div>
+    <!-- 八卦背景 -->
+    <div class="bagua-background" id="baguaBackground">
+        <div class="bagua-circle"></div>
+        <div class="bagua-circle"></div>
+    </div>
+
+    <!-- 水墨粒子 -->
+    <div class="ink-particles" id="inkParticles"></div>
 
     <!-- 主容器 -->
     <div class="container">
-        <h1>✨ 神秘算命馆 ✨</h1>
-        <p class="subtitle">让星辰为您指引人生之路</p>
+        <h1>🐉 道缘占卜馆 🐉</h1>
+        <p class="subtitle">天机秘册 · 古今相聚</p>
 
         <div class="input-group">
-            <label class="input-label">请输入您的姓名</label>
-            <input type="text" id="nameInput" placeholder="例如：李明" maxlength="20">
+            <label class="input-label">姓名</label>
+            <input type="text" id="nameInput" placeholder="请输入您的名字" maxlength="20">
         </div>
 
         <div class="input-group">
-            <label class="input-label">请输入您的生日</label>
+            <label class="input-label">生辰八字</label>
             <input type="date" id="birthdayInput">
         </div>
 
+        <div class="input-group">
+            <label class="input-label">性别</label>
+            <select id="genderInput" style="width: 100%; padding: 12px 15px; border: 2px solid #8b7355; background: rgba(20, 18, 15, 0.8); color: #d4a574; font-family: inherit; border-radius: 0; cursor: pointer;">
+                <option value="">请选择</option>
+                <option value="male">男</option>
+                <option value="female">女</option>
+            </select>
+        </div>
+
         <div class="button-container">
-            <button id="divineBtn">开始占卜</button>
+            <button id="divineBtn">🔮 开始占卜</button>
+            <button id="resetBtn" class="secondary">重 新 开 始</button>
         </div>
 
         <div class="result-container" id="resultContainer">
+            <div class="result-title" id="resultTitle"></div>
             <div class="result-text" id="resultText"></div>
+            <div class="result-detail" id="resultDetail"></div>
         </div>
     </div>
 
     <script>
-        // 生成星星
-        function generateStars() {
-            const starsContainer = document.getElementById('starsContainer');
-            const starCount = 100;
+        // 生成水墨粒子
+        function generateInkParticles() {
+            const container = document.getElementById('inkParticles');
+            const particleCount = 30;
 
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = (Math.random() * 2 + 0.5) + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                star.style.animationDelay = Math.random() * 5 + 's';
-                starsContainer.appendChild(star);
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 200 + 50) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.borderRadius = '50%';
+                particle.style.background = `rgba(${Math.random() * 50 + 100}, ${Math.random() * 50 + 80}, ${Math.random() * 50 + 60}, 0.1)`;
+                particle.style.animation = `float ${Math.random() * 20 + 15}s infinite linear`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(particle);
             }
         }
 
-        // 占卜逻辑
+        // 创建CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0) translateX(0); }
+                100% { transform: translateY(-100vh) translateX(100px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 十天干
+        const heavenlyStemsMap = {
+            0: '甲', 1: '乙', 2: '丙', 3: '丁', 4: '戊',
+            5: '己', 6: '庚', 7: '辛', 8: '壬', 9: '癸'
+        };
+
+        // 十二地支
+        const earthlyBranchesMap = {
+            0: '子', 1: '丑', 2: '寅', 3: '卯', 4: '辰', 5: '巳',
+            6: '午', 7: '未', 8: '申', 9: '酉', 10: '戌', 11: '亥'
+        };
+
+        // 五行
+        const wuxingMap = {
+            0: '金', 1: '木', 2: '水', 3: '火', 4: '土'
+        };
+
+        // 生肖
+        const zodiacMap = {
+            0: '鼠', 1: '牛', 2: '虎', 3: '兔', 4: '龙', 5: '蛇',
+            6: '马', 7: '羊', 8: '猴', 9: '鸡', 10: '狗', 11: '猪'
+        };
+
+        // 占卜预测库
+        const divinationPredictions = [
+            {
+                title: '吉象',
+                texts: [
+                    '卦象昌隆，时来运转。您的命格中蕴含着强大的上升气势，近期将有意外收获。',
+                    '天地人和，福禄双至。您的善良品性感应天地，好运即将降临。',
+                    '龙虎在野，腾云九霄。您的才华将在适当的时机闪耀光芒，前程似锦。',
+                    '鸿运当头，贵人扶持。您的真诚将吸引贵人相助，事业有成指日可待。',
+                    '千般机缘，天意安排。您的人生将在关键时刻出现转机，命运光明。'
+                ]
+            },
+            {
+                title: '中象',
+                texts: [
+                    '平稳向前，稳中求胜。您的人生需要脚踏实地的奋斗，成功需要时间积累。',
+                    '云遮月明，待时而动。现在不是最佳时机，但机会正在酝酿，耐心等待。',
+                    '山河壮阔，路在脚下。您有能力开创属于自己的道路，但需要更多努力。',
+                    '阴阳平衡，见仁见智。您的选择将决定未来方向，需要做出明智抉择。',
+                    '潜龙在渊，蓄势待发。您正处于积累期，此时的投入将为未来铺路。'
+                ]
+            },
+            {
+                title: '凶象',
+                texts: [
+                    '暗流涌动，需多加谨慎。您的人生中存在挑战，但挑战亦是机遇的伪装。',
+                    '云密天低，光芒暂晦。困难时期需要坚定信心，黎明前的黑暗最难度过。',
+                    '风雨欲来，提前准备。您需要在风雨前做好万全准备，方能度过难关。',
+                    '浮萍逐流，需寻根锚。现在您需要找到人生的中心，才能不被浮沉所困。',
+                    '劫数难逃，修为自救。您需要在这个时期磨炼心性，方能渡过难劫。'
+                ]
+            }
+        ];
+
+        // 计算干支和五行
+        function calculateBaZi(birthdayStr, name, gender) {
+            const date = new Date(birthdayStr);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+
+            // 简化计算：按公历推算
+            const yearStem = (year - 4) % 10;
+            const yearBranch = (year - 4) % 12;
+            const monthStem = (((year - 1900) * 12 + month + 1) * 2 % 10);
+            const monthBranch = month % 12;
+            const dayStem = ((date.getTime() / (24 * 60 * 60 * 1000) + 10) % 10) | 0;
+            const dayBranch = ((date.getTime() / (24 * 60 * 60 * 1000) + 4) % 12) | 0;
+
+            return {
+                year: heavenlyStemsMap[yearStem] + earthlyBranchesMap[yearBranch],
+                month: heavenlyStemsMap[monthStem] + earthlyBranchesMap[monthBranch],
+                day: heavenlyStemsMap[dayStem] + earthlyBranchesMap[dayBranch],
+                zodiac: zodiacMap[yearBranch],
+                wuxing: wuxingMap[yearStem],
+                nameCount: name.length
+            };
+        }
+
+        // 根据命格选择预测
+        function getPrediction(baziInfo, gender) {
+            const seed = (baziInfo.nameCount + baziInfo.year.length + (gender === 'male' ? 1 : 2)) % 10;
+            const categoryIndex = seed < 4 ? 0 : (seed < 7 ? 1 : 2);
+            const textIndex = seed % 5;
+            
+            const category = divinationPredictions[categoryIndex];
+            return {
+                title: category.title,
+                text: category.texts[textIndex]
+            };
+        }
+
+        // 占卜功能
         function divine() {
             const nameInput = document.getElementById('nameInput');
             const birthdayInput = document.getElementById('birthdayInput');
+            const genderInput = document.getElementById('genderInput');
             const resultContainer = document.getElementById('resultContainer');
+            const resultTitle = document.getElementById('resultTitle');
             const resultText = document.getElementById('resultText');
+            const resultDetail = document.getElementById('resultDetail');
 
             const name = nameInput.value.trim();
             const birthday = birthdayInput.value;
+            const gender = genderInput.value;
 
-            if (!name || !birthday) {
-                resultText.innerHTML = '<span class="error">⚠️ 请输入完整的姓名和生日</span>';
+            if (!name || !birthday || !gender) {
+                resultText.innerHTML = '<span class="error">✦ 请完整填写所有信息</span>';
+                resultTitle.innerHTML = '信息不足';
                 resultContainer.classList.add('show');
                 return;
             }
 
-            const predictions = [
-                '🌙 今年将是您充满转变的一年，星辰预示着新的机遇正在靠近。坚持您的梦想，命运之轮将为您转动。',
-                '⭐ 您的生命之光闪耀非常，周围的人都能感受到您的温暖。继续保持这份热情，成功将不远。',
-                '✨ 近期将有一个重要的决定需要做出，相信您的直觉，它会指引您找到正确的答案。',
-                '🔮 爱情的花朵即将在您的生命中绽放，保持开放的心态，美好的缘分正在靠近。',
-                '💫 工作或学业上将迎来新的挑战，这是证明自己能力的好机会，不要退缩。',
-                '🌟 您的耐心将得到回报，所有的努力都在朝着梦想靠近，再坚持一段时间。',
-                '🎆 这一年的您将发现内心深处的力量，它将帮助您克服所有的困难和挑战。',
-                '🌠 注意身边的细节，有一个信号正在暗示您改变方向，这可能是幸运的开始。',
-                '✨ 与家人和朋友的关系将变得更加紧密，珍惜这份羁绊，它是您力量的源泉。',
-                '🔆 天空中的星辰为您指路，您注定要闪闪发光，相信这个预言。'
-            ];
+            // 计算八字
+            const baziInfo = calculateBaZi(birthday, name, gender);
+            const prediction = getPrediction(baziInfo, gender);
 
-            // 根据名字和生日生成伪随机数
-            const seed = name.length + new Date(birthday).getTime();
-            const index = Math.abs(seed) % predictions.length;
-            const prediction = predictions[index];
+            // 显示结果
+            resultTitle.innerHTML = `『${prediction.title}』的预示`;
+            resultText.innerHTML = prediction.text;
 
-            resultText.innerHTML = `<strong>${name}</strong>，根据星辰的低语：<br><br>${prediction}`;
+            // 显示详细信息
+            resultDetail.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-label">年柱</div>
+                    <div class="detail-value">${baziInfo.year}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">月柱</div>
+                    <div class="detail-value">${baziInfo.month}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">生肖</div>
+                    <div class="detail-value">${baziInfo.zodiac}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">五行属性</div>
+                    <div class="detail-value">${baziInfo.wuxing}</div>
+                </div>
+            `;
+
             resultContainer.classList.add('show');
+        }
+
+        // 重置功能
+        function reset() {
+            document.getElementById('nameInput').value = '';
+            document.getElementById('birthdayInput').value = '';
+            document.getElementById('genderInput').value = '';
+            document.getElementById('resultContainer').classList.remove('show');
         }
 
         // 事件监听
         document.getElementById('divineBtn').addEventListener('click', divine);
+        document.getElementById('resetBtn').addEventListener('click', reset);
+
         document.getElementById('nameInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') divine();
         });
+
         document.getElementById('birthdayInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') divine();
         });
 
         // 初始化
-        generateStars();
+        generateInkParticles();
     </script>
 </body>
 </html>
